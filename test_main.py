@@ -1,22 +1,20 @@
 """
-Unit tests for the main script.
+Unit tests for the Flask app.
 """
 
 import unittest
-from colorama import Fore, Style
-from main import get_funny_message
+from main import app
 
 
 class TestMain(unittest.TestCase):
-    """Test case for verifying the get_funny_message function."""
+    """Test case for verifying the Flask app routes."""
 
-    def test_get_funny_message(self):
-        """Tests if get_funny_message returns the expected formatted string."""
-        expected_output = (
-            f"Azure DevOps Dev -> {Fore.YELLOW}Warning: Low battery! "
-            f"Please charge your developer...{Style.RESET_ALL}"
-        )
-        self.assertEqual(get_funny_message(), expected_output)
+    def test_home_route(self):
+        """Tests if the home route returns the expected response."""
+        tester = app.test_client()
+        response = tester.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Azure DevOps Dev", response.data.decode("utf-8"))
 
 
 if __name__ == "__main__":

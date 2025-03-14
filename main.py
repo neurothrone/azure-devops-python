@@ -1,24 +1,22 @@
 """
-A simple script that prints a funny message with color.
+A simple Flask app that returns a funny message.
 """
 
-import colorama
-from colorama import Fore, Style
+from flask import Flask
+
+app = Flask(__name__)
 
 
 def get_funny_message():
-    """Returns a funny, colored message with a prefix."""
-    return (
-        f"Azure DevOps Dev -> {Fore.YELLOW}Warning: Low battery! "
-        f"Please charge your developer...{Style.RESET_ALL}"
-    )
+    """Returns a funny message."""
+    return "Azure DevOps Dev -> Warning: Low battery! Please charge your developer..."
 
 
-def main():
-    """Main function to print the funny message."""
-    colorama.init()
-    print(get_funny_message())
+@app.route("/")
+def home():
+    """Home route that returns the funny message."""
+    return f"<pre>{get_funny_message()}</pre>"
 
 
 if __name__ == "__main__":
-    main()
+    app.run(host="0.0.0.0", port=5001)
